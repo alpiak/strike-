@@ -58,24 +58,22 @@
 
 	var _render2 = _interopRequireDefault(_render);
 
+	var _board = __webpack_require__(5);
+
+	var _board2 = _interopRequireDefault(_board);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// module aliases
-	var Engine = _matterJs2.default.Engine,
-	    Render = _matterJs2.default.Render,
-	    World = _matterJs2.default.World,
-	    Bodies = _matterJs2.default.Bodies;
-
-	// create two boxes and a ground
 	/**
 	 * Created by qhyang on 2017/1/13.
 	 */
-	var boxA = Bodies.rectangle(400, 200, 80, 80);
-	var boxB = Bodies.rectangle(450, 50, 80, 80);
-	var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+	var Engine = _matterJs2.default.Engine,
+	    Render = _matterJs2.default.Render,
+	    World = _matterJs2.default.World;
 
 	// add all of the bodies to the world
-	World.add(_engine2.default.world, [boxA, boxB, ground]);
+	World.add(_engine2.default.world, [_board2.default]);
 
 	// run the engine
 	Engine.run(_engine2.default);
@@ -10120,7 +10118,7 @@
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _matterJs = __webpack_require__(1);
@@ -10137,8 +10135,36 @@
 	 * Created by qhyang on 2017/1/16.
 	 */
 	exports.default = _matterJs2.default.Render.create({
-	  element: document.body,
-	  engine: _engine2.default
+	    element: document.body,
+	    engine: _engine2.default,
+	    options: {
+	        height: 800,
+	        width: 800
+	    }
+	});
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _matterJs = __webpack_require__(1);
+
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Bodies = _matterJs2.default.Bodies; /**
+	                                         * Created by qhyang on 2017/1/16.
+	                                         */
+	exports.default = Bodies.rectangle(400, 400, 600, 600, {
+	  isSensor: true,
+	  isStatic: true
 	});
 
 /***/ }

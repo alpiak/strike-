@@ -6,5 +6,9 @@ import engine from "../physics/engine";
 
 export default Matter.Render.create({
     element: document.body,
-    engine: engine
+    engine: engine,
+    options: {
+        height: 800,
+        width: 800
+    }
 });
