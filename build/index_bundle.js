@@ -44,10 +44,44 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var _matterJs = __webpack_require__(1);
+
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+
+	var _engine = __webpack_require__(2);
+
+	var _engine2 = _interopRequireDefault(_engine);
+
+	var _render = __webpack_require__(4);
+
+	var _render2 = _interopRequireDefault(_render);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// module aliases
+	var Engine = _matterJs2.default.Engine,
+	    Render = _matterJs2.default.Render,
+	    World = _matterJs2.default.World,
+	    Bodies = _matterJs2.default.Bodies;
+
+	// create two boxes and a ground
 	/**
 	 * Created by qhyang on 2017/1/13.
 	 */
-	const Matter = __webpack_require__(1);
+	var boxA = Bodies.rectangle(400, 200, 80, 80);
+	var boxB = Bodies.rectangle(450, 50, 80, 80);
+	var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+
+	// add all of the bodies to the world
+	World.add(_engine2.default.world, [boxA, boxB, ground]);
+
+	// run the engine
+	Engine.run(_engine2.default);
+
+	// run the renderer
+	Render.run(_render2.default);
 
 /***/ },
 /* 1 */
@@ -10025,6 +10059,86 @@
 	})();
 
 	},{"../body/Composite":2,"../core/Common":14,"../core/Events":16,"../geometry/Bounds":26,"../geometry/Vector":28}]},{},[30])(30)
+	});
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _matterJs = __webpack_require__(1);
+
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+
+	var _world = __webpack_require__(3);
+
+	var _world2 = _interopRequireDefault(_world);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Created by qhyang on 2017/1/16.
+	 */
+	exports.default = _matterJs2.default.Engine.create({
+	  world: _world2.default
+	});
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _matterJs = __webpack_require__(1);
+
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _matterJs2.default.World.create({
+	    gravity: {
+	        x: 0,
+	        y: 0
+	    }
+	}); /**
+	     * Created by qhyang on 2017/1/16.
+	     */
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _matterJs = __webpack_require__(1);
+
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+
+	var _engine = __webpack_require__(2);
+
+	var _engine2 = _interopRequireDefault(_engine);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Created by qhyang on 2017/1/16.
+	 */
+	exports.default = _matterJs2.default.Render.create({
+	  element: document.body,
+	  engine: _engine2.default
 	});
 
 /***/ }
