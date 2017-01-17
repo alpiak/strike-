@@ -2,14 +2,13 @@
  * Created by qhyang on 2017/1/16.
  */
 export default class {
-    static create(options) {
-        let player = {};
+    constructor (options) {
         if (options.type) {
-            player.type = options.type;
+            this.type = options.type;
         } else {
-            player.type = "AI";
+            this.type = "AI";
         }
-        return player;
+        this.name = options.name;
     }
 }
 
@@ -27,3 +26,10 @@ export default class {
  * @default "AI"
  */
 
+/**
+ *A `String` denoting the name of player.
+ *
+ * @property name
+ * @type string
+ * @required
+ */
