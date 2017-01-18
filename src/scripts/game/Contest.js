@@ -1,10 +1,13 @@
 /**
  * Created by qhyang on 2017/1/18.
  */
+import StageQueue from "./StageQueue";
 
 export default class {
     constructor (options) {
-        this.stageQueue = options.stageQueue;
+        if (options.type === "basic") {
+            this.stageQueue = new StageQueue(1);
+        }
     }
 }
 
@@ -17,7 +20,7 @@ export default class {
 /**
  *
  *
- * @property stageQueue
- * @type stageQueue
+ * @property type
+ * @type string
  * @required
  */

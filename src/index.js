@@ -12,9 +12,7 @@ let game = new Game({
     setup: new Setup({
         type: "regular"
     }),
-    contest: new Contest({
-        stageQueue: new StageQueue()
-    }),
+    contest: new Contest("basic"),
     board: board,
     mouse: mouse,
     engine: engine,
