@@ -17,6 +17,7 @@
     "babel-preset-env": "^1.1.5",
     "css-loader": "^0.26.1",
     "html-webpack-plugin": "^2.26.0",
+    "json-loader": "^0.5.4",
     "matter-js": "^0.11.1",
     "node-sass": "^4.3.0",
     "rxjs-es": "^5.0.0-beta.12",

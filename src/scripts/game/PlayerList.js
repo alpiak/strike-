@@ -19,7 +19,7 @@ export default class {
         if (this.active >= players.length) {
             this.active = 0;
         } else {
-            this.active++;
+            this.active = this.active + 1;
         }
         return players[active];
     }

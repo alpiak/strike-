@@ -3,7 +3,7 @@
  */
 import Rx from "rxjs/Rx";
 
-let startRegularSetup = function (playerList) {
+let startRegularSetup = function (playerList, game) {
 
 };
 
