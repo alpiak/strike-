@@ -2,6 +2,7 @@ const webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    devtool: 'source-map',
     entry: './src/index.js',
     output: {
         path: './build',
@@ -29,5 +30,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html'
         })
-    ]
+    ],
+    devServer: {
+        contentBase: './build',
+        colors: true,
+        historyApiFallback: true,
+        inline: true
+    }
 };

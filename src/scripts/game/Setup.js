@@ -2,9 +2,16 @@
  * Created by qhyang on 2017/1/17.
  */
 import Rx from "rxjs/Rx";
+import Matter from "matter-js";
+import mouseConstraint from "../physics/mouseConstraint";
 
-let startRegularSetup = function (playerList, game) {
-
+let startRegularSetup = function () {
+    let catchMouseDownAsObservable = Rx.Observable.create(observer => {
+        Matter.Events.on(mouseConstraint, "mousedown", event => {
+            observer.next(event);
+        });
+    });
+    catchMouseDownAsObservable.scan();
 };
 
 export default class {
