@@ -5,13 +5,29 @@ import Rx from "rxjs/Rx";
 import Matter from "matter-js";
 import mouseConstraint from "../physics/mouseConstraint";
 
-let startRegularSetup = function () {
-    let catchMouseDownAsObservable = Rx.Observable.create(observer => {
-        Matter.Events.on(mouseConstraint, "mousedown", event => {
-            observer.next(event);
+/**
+ *
+ * @param game {object} the game instance of the setup
+ */
+let startRegularSetup = function (game) {
+    let playerQueue = game.playerQueue;
+
+    /**
+     *
+     * @param player {object} An instance of Player
+     */
+    function startPlacingPiece(player) {
+        let catchMouseDownAsObservable = Rx.Observable.create(subscriber => {
+            Matter.Events.on(mouseConstraint, "mousedown", event => {
+                subscriber.next(event);
+            });
         });
-    });
-    catchMouseDownAsObservable.scan();
+        catchMouseDownAsObservable.subscribe(event => {
+            console.log(event);
+        });
+    }
+
+    startPlacingPiece(playerQueue.active);
 };
 
 export default class {
@@ -31,7 +47,7 @@ export default class {
  */
 
 /**
- *A `String` denoting the type of game setup. Values: "regular".
+ * A `String` denoting the type of game setup. Values: "regular".
  *
  * @property type
  * @type string

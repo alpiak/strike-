@@ -18,7 +18,7 @@ export default class {
  */
 
 /**
- *
+ * A `String` denoting the type of game setup. Values: "basic".
  *
  * @property type
  * @type string

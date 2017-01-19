@@ -5,10 +5,11 @@ import Matter from "matter-js";
 
 export default class {
     constructor (options) {
+        this.playerQueue = options.playerQueue;
         this.setup = options.setup;
         this.contest = options.contest;
+        this.mouseConstraint = options.mouseConstraint;
         this.board = options.board;
-        this.mouse = options.mouse;
         this.engine = options.engine;
         this.render = options.render;
     }
@@ -21,7 +22,7 @@ export default class {
             World = Matter.World;
 
         // add all of the bodies to the world
-        World.add(this.engine.world, [this.board]);
+        World.add(this.engine.world, [this.mouseConstraint, this.board]);
 
         // run the engine
         Engine.run(this.engine);
@@ -32,7 +33,7 @@ export default class {
         this.startSetup();
     }
     startSetup() {
-        this.setup.start();
+        this.setup.start(this);
     }
 
 }
@@ -41,6 +42,14 @@ export default class {
  *
  * Properties Documentation
  *
+ */
+
+/**
+ *
+ *
+ * @property playerQueue
+ * @type playerQueue
+ * @required
  */
 
 /**
@@ -56,14 +65,6 @@ export default class {
  *
  * @property contest
  * @type contest
- * @required
- */
-
-/**
- *
- *
- * @property playerQueue
- * @type playerQueue
  * @required
  */
 

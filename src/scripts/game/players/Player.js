@@ -1,14 +1,14 @@
 /**
- * Created by qhyang on 2017/1/16.
+ * Created by qhyang on 2017/1/19.
  */
 export default class {
     constructor (options) {
-        if (options.type) {
-            this.type = options.type;
-        } else {
-            this.type = "AI";
-        }
         this.name = options.name;
+        this.pieceSet = [];
+    }
+
+    addPiece(piece) {
+        this.pieceSet.push(piece);
     }
 }
 
@@ -19,7 +19,7 @@ export default class {
  */
 
 /**
- *A `String` denoting the type of player. Values: "humans", "AI".
+ *A `String` denoting the type of player. Values: "human", "robot".
  *
  * @property type
  * @type string
