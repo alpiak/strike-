@@ -8,11 +8,24 @@ export default class {
         this.playerQueue = options.playerQueue;
         this.pieceSet = [];
         this.setup = options.setup;
+        this.setup.game = this;
         this.contest = options.contest;
-        this.mouseConstraint = options.mouseConstraint;
+        this.contest.game = this;
         this.board = options.board;
         this.engine = options.engine;
-        this.render = options.render;
+        if (options.render.engine === "Matter.js") {
+            this.render = Matter.Render.create({
+                element: document.body,
+                engine: this.engine,
+                options: {
+                    height: options.render.options.height,
+                    width: options.render.options.width
+                }
+            });
+        }
+        this.mouseConstraint = Matter.MouseConstraint.create(this.engine, {
+            mouse: Matter.Mouse.create(this.render.canvas)
+        });
     }
 
     start() {

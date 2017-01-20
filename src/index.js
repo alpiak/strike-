@@ -1,16 +1,13 @@
 /**
  * Created by qhyang on 2017/1/13.
  */
-import Game from "./scripts/game/Game";
-import Human from "./scripts/game/players/Human";
-import Robot from "./scripts/game/players/Robot";
-import PlayerQueue from "./scripts/game/queues/PlayerQueue";
-import Setup from "./scripts/game/Setup";
-import Contest from "./scripts/game/Contest";
-import render from "./scripts/render/render";
-import engine from "./scripts/physics/engine";
-import mouseConstraint from "./scripts/physics/mouseConstraint";
-import board from "./scripts/physics/board";
+import Matter from "matter-js";
+import Game from "./scripts/Game";
+import Human from "./scripts/players/Human";
+import Robot from "./scripts/players/Robot";
+import PlayerQueue from "./scripts/queues/PlayerQueue";
+import Setup from "./scripts/Setup";
+import Contest from "./scripts/Contest";
 
 let game = new Game({
     playerQueue: new PlayerQueue({
@@ -29,9 +26,25 @@ let game = new Game({
     contest: new Contest({
         type: "basic"
     }),
-    board: board,
-    mouseConstraint: mouseConstraint,
-    engine: engine,
-    render: render
+    board: Matter.Bodies.rectangle(400, 400, 600, 600, {
+        label: "board",
+        isSensor: true,
+        isStatic: true
+    }),
+    engine: Matter.Engine.create({
+        world: Matter.World.create({
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        })
+    }),
+    render: {
+        engine: "Matter.js",
+        options: {
+            height: 800,
+            width: 800
+        }
+    }
 });
 game.start();
