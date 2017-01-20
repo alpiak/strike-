@@ -6,6 +6,7 @@ import Matter from "matter-js";
 export default class {
     constructor (options) {
         this.playerQueue = options.playerQueue;
+        this.pieceSet = [];
         this.setup = options.setup;
         this.contest = options.contest;
         this.mouseConstraint = options.mouseConstraint;
@@ -51,6 +52,14 @@ export default class {
  * @type playerQueue
  * @required
  */
+
+/**
+ *
+ *
+ * @property pieceSet
+ * @type pieceSet
+ */
+
 
 /**
  *

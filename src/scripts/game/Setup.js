@@ -22,9 +22,12 @@ let startRegularSetup = function (game) {
                 subscriber.next(event);
             });
         });
-        catchMouseDownAsObservable.subscribe(event => {
-            console.log(event);
-        });
+        catchMouseDownAsObservable.filter(event => {
+            return true;
+        })
+            .subscribe(event => {
+                console.log(event);
+            });
     }
 
     startPlacingPiece(playerQueue.active);
