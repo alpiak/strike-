@@ -2,10 +2,12 @@
  * Created by qhyang on 2017/1/20.
  */
 export default class {
-    _pieces;
-
     constructor (options) {
-        this._pieces = options.pieces || [];
+        if (options) {
+            this._pieces = options.pieces || [];
+        } else {
+            this._pieces = [];
+        }
     }
 
     add(piece) {

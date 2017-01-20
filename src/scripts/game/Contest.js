@@ -1,7 +1,7 @@
 /**
  * Created by qhyang on 2017/1/18.
  */
-import StageQueue from "./StageQueue";
+import StageQueue from "./queues/StageQueue";
 
 export default class {
     constructor (options) {
