@@ -2,11 +2,12 @@
  * Created by qhyang on 2017/1/17.
  */
 import Matter from "matter-js";
+import PieceSet from "./PieceSet";
 
 export default class {
     constructor (options) {
         this.playerQueue = options.playerQueue;
-        this.pieceSet = [];
+        this.pieceSet = options.pieceSet || new PieceSet();
         this.setup = options.setup;
         this.setup.game = this;
         this.contest = options.contest;
