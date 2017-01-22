@@ -4,6 +4,7 @@
 import Rx from "rxjs/Rx";
 import Matter from "matter-js";
 import config from "../config.json";
+import Piece from "./Piece";
 
 let pieceRadius = config.gaming.piece.radius;
 
@@ -15,11 +16,8 @@ let startPlacingPiece = function(player) {
     let that = this,
         boardBounds = that.game.board.bounds,
         listen = function () {
-            let subscriptionA = Rx.Observable.create(subscriber => {
-                    Matter.Events.on(that.game.mouseConstraint, "mousedown", event => {
-                        subscriber.next(event);
-                    });
-                })
+            that.game.mouseConstraint.collisionFilter.mask = 0; // Disable mouse interaction with the pieces
+            let subscriptionA = Rx.Observable.bindCallback(Matter.Events.on)(that.game.mouseConstraint, "mousedown")
                 .filter(event =>
                     event.mouse.position.x >= boardBounds.min.x + pieceRadius
                     && event.mouse.position.x <= boardBounds.max.x - pieceRadius
@@ -29,33 +27,59 @@ let startPlacingPiece = function(player) {
                 .subscribe(event => {
                     let position = event.mouse.position,
                         sensor = Matter.Bodies.circle(position.x, position.y, 20, {
-                            isSensor: true,
-                            frictionAir: 0.03,
-                            restitution: 0.65
-                        });
+                            isSensor: true
+                        }),
+                        hasCollision = false;
                     subscriptionA.unsubscribe();
-                    let subscriptionB = Rx.Observable.create(subscriber => {
-                            Matter.Events.on(that.game.engine, "collisionStart", event => {
-                                subscriber.next(event);
-                            });
-                        })
+                    let subscriptionB = Rx.Observable.bindCallback(Matter.Events.on)(that.game.engine, "collisionStart")
                         .filter(event => {
                             let pairs = event.pairs;
 
                             for (let i = 0, j = pairs.length; i != j; ++i) {
                                 let pair = pairs[i];
 
-                                if (pair.bodyA === sensor || pair.bodyB === sensor && pair.bodyA !== that.game.board && pair.BodyB !== that.game.board) {
-
-                                    console.log("collision");
-                                    return false;
+                                if (pair.bodyA === sensor
+                                    || pair.bodyB === sensor
+                                    && pair.bodyA !== that.game.board
+                                    && pair.BodyB !== that.game.board) {
+                                    return true;
                                 }
                             }
-                            return true;
+                            return false;
                         })
-                        .subscribe(event => {
+                        .subscribe(() => {
+                            subscriptionB.unsubscribe();
+                            hasCollision = true;
                         });
                     Matter.World.add(that.game.engine.world, sensor);
+                    let count = 0;
+                    let runOnNextFrame = function () {
+                            console.log(count, hasCollision);
+                            if (Matter.Composite.get(that.game.engine.world, sensor.id, sensor.type)) {
+                                if (hasCollision === true) {
+                                    console.log("bad");
+                                    Matter.Composite.remove(that.game.engine.world, sensor);
+                                    listen();
+                                } else if (count >= 5) {
+                                    console.log("good");
+                                    subscriptionB.unsubscribe();
+                                    Matter.Body.set(sensor, {
+                                        isSensor: false,
+                                        frictionAir: 0.03,
+                                        restitution: 0.65
+                                    });
+                                    player.pieceSet.add(new Piece({
+                                        owner: player,
+                                        body: sensor
+                                    }));
+                                    listen();
+                                } else {
+                                    count++;
+                                    requestAnimationFrame(runOnNextFrame);
+                                }
+                            }
+                        };
+                    requestAnimationFrame(runOnNextFrame);
                 });
         };
 
@@ -63,7 +87,6 @@ let startPlacingPiece = function(player) {
     },
     startRegularSetup = function () {
         let playerQueue = this.game.playerQueue;
-
         startPlacingPiece.call(this, playerQueue.active);
     };
 
