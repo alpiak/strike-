@@ -20,7 +20,11 @@ let startPlacingPiece = function(player, pieceTotal, completeCallback) {
         listen = function () {
             that.game.mouseConstraint.collisionFilter.mask = 0; // Disable mouse interaction with the pieces
             let pieceRadius = player.pieceRadius,
-                subscriptionA = Rx.Observable.bindCallback(Matter.Events.on)(that.game.mouseConstraint, "mousedown")
+                subscriptionA = Rx.Observable.create(subscriber => {
+                    Matter.Events.on(that.game.mouseConstraint, "mousedown", event => {
+                        subscriber.next(event);
+                    });
+                })
                     .filter(event =>
                         event.mouse.position.x >= boardBounds.min.x + pieceRadius
                         && event.mouse.position.x <= boardBounds.max.x - pieceRadius
@@ -34,7 +38,11 @@ let startPlacingPiece = function(player, pieceTotal, completeCallback) {
                             }),
                             hasCollision = false;
                         subscriptionA.unsubscribe();
-                        let subscriptionB = Rx.Observable.bindCallback(Matter.Events.on)(that.game.engine, "collisionStart")
+                        let subscriptionB = Rx.Observable.create(subscriber => {
+                                Matter.Events.on(that.game.engine, "collisionStart", event => {
+                                    subscriber.next(event);
+                                });
+                            })
                                 .filter(event => {
                                     let pairs = event.pairs;
 
@@ -97,11 +105,11 @@ let startPlacingPiece = function(player, pieceTotal, completeCallback) {
         let that = this,
             playerQueue = that.game.playerQueue,
             minPieceTotalPlayer = (function () {
-                let minPieceTotal = playerQueue.get(0).pieceSet.length,
+                let minPieceTotal = playerQueue.get(0).pieceTotal,
                     index = 0;
                 for (let i = 1, len = playerQueue.length; i < len; i++) {
-                    if (playerQueue.get(i).pieceSet.length < minPieceTotal) {
-                        minPieceTotal = playerQueue.get(i).pieceSet.length;
+                    if (playerQueue.get(i).pieceTotal < minPieceTotal) {
+                        minPieceTotal = playerQueue.get(i).pieceTotal;
                         index = i;
                     }
                 }
@@ -111,19 +119,30 @@ let startPlacingPiece = function(player, pieceTotal, completeCallback) {
                 return player.pieceTotal - player.pieceSet.length;
             },
             decidePlacingPieceCount = function (player) {
-                let playerRestPieceCount = getRestPieceCount(player),
-                    minRestPieceCount = getRestPieceCount(minPieceTotalPlayer),
-                    count = Math.round(playerRestPieceCount / minRestPieceCount);
+                let stepLength = player.pieceTotal / minPieceTotalPlayer.pieceTotal,
+                    stepsPlayed = Math.round(player.pieceSet.length / stepLength),
+                    playerRestPieceCount = getRestPieceCount(player),
+                    ajustedPlayerRestPieceCount,
+                    minRestPieceCount = getRestPieceCount(minPieceTotalPlayer);
+                if (stepsPlayed < minPieceTotalPlayer.pieceSet.length) {
+                    ajustedPlayerRestPieceCount = Math.round(playerRestPieceCount - stepLength);
+                } else if (stepsPlayed > minPieceTotalPlayer.pieceSet.length) {
+                    ajustedPlayerRestPieceCount = Math.round(playerRestPieceCount + stepLength);
+                } else {
+                    ajustedPlayerRestPieceCount = playerRestPieceCount;
+                }
+                let count = Math.round(ajustedPlayerRestPieceCount / minRestPieceCount);
                 if (count <= playerRestPieceCount) {
                     return count;
                 } else {
                     return playerRestPieceCount;
                 }
             },
-            nextPlayerStart = function () {
-                startPlacingPiece.call(that, playerQueue.next(), decidePlacingPieceCount(playerQueue.active), nextPlayerStart);
+            playerActionStart = function () {
+                startPlacingPiece.call(that, playerQueue.active, decidePlacingPieceCount(playerQueue.active), playerActionStart);
+                playerQueue.next();
             };
-        startPlacingPiece.call(that, playerQueue.active, decidePlacingPieceCount(playerQueue.active), nextPlayerStart);
+            playerActionStart();
     };
 
 export default class {

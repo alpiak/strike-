@@ -14,7 +14,8 @@ let game = new Game({
         players: [
             new Human({
                 name: "playerA",
-                pieceRadius: 30
+                pieceRadius: 30,
+                pieceTotal: 5
             }),
             new Human({
                 name: "playerB"

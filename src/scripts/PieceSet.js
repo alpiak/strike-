@@ -2,6 +2,10 @@
  * Created by qhyang on 2017/1/20.
  */
 export default class {
+    get length() {
+        return this._pieces.length;
+    }
+
     constructor (options) {
         if (options) {
             this._pieces = options.pieces || [];
