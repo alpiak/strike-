@@ -7,6 +7,8 @@ export default class {
     constructor (options) {
         this.name = options.name;
         this.pieceSet = options.pieceSet || new PieceSet();
+        this.pieceRadius = options.pieceRadius || 20;
+        this.pieceTotal = options.pieceTotal || 10;
     }
 }
 

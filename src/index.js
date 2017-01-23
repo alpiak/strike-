@@ -13,12 +13,14 @@ let game = new Game({
     playerQueue: new PlayerQueue({
         players: [
             new Human({
-                name: "playerA"
+                name: "playerA",
+                pieceRadius: 30
             }),
             new Human({
                 name: "playerB"
             })
-        ]
+        ],
+        loop: true
     }),
     setup: new Setup({
         type: "regular"

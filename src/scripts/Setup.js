@@ -3,91 +3,127 @@
  */
 import Rx from "rxjs/Rx";
 import Matter from "matter-js";
-import config from "../config.json";
 import Piece from "./Piece";
 
-let pieceRadius = config.gaming.piece.radius;
-
 /**
+ * Start a piece placing phase for a player.
  *
+ * @function startPlacingPiece
  * @param player {object} An instance of Player
+ * @param pieceTotal {number} How many pieces the play should place in this phase
+ * @param completeCallback {function} The callback when a piece is placed successfully
  */
-let startPlacingPiece = function(player) {
+let startPlacingPiece = function(player, pieceTotal, completeCallback) {
     let that = this,
         boardBounds = that.game.board.bounds,
+        pieceCount = 0,
         listen = function () {
             that.game.mouseConstraint.collisionFilter.mask = 0; // Disable mouse interaction with the pieces
-            let subscriptionA = Rx.Observable.bindCallback(Matter.Events.on)(that.game.mouseConstraint, "mousedown")
-                .filter(event =>
-                    event.mouse.position.x >= boardBounds.min.x + pieceRadius
-                    && event.mouse.position.x <= boardBounds.max.x - pieceRadius
-                    && event.mouse.position.y >= boardBounds.min.y + pieceRadius
-                    && event.mouse.position.y <= boardBounds.max.y - pieceRadius
-                )
-                .subscribe(event => {
-                    let position = event.mouse.position,
-                        sensor = Matter.Bodies.circle(position.x, position.y, 20, {
-                            isSensor: true
-                        }),
-                        hasCollision = false;
-                    subscriptionA.unsubscribe();
-                    let subscriptionB = Rx.Observable.bindCallback(Matter.Events.on)(that.game.engine, "collisionStart")
-                        .filter(event => {
-                            let pairs = event.pairs;
+            let pieceRadius = player.pieceRadius,
+                subscriptionA = Rx.Observable.bindCallback(Matter.Events.on)(that.game.mouseConstraint, "mousedown")
+                    .filter(event =>
+                        event.mouse.position.x >= boardBounds.min.x + pieceRadius
+                        && event.mouse.position.x <= boardBounds.max.x - pieceRadius
+                        && event.mouse.position.y >= boardBounds.min.y + pieceRadius
+                        && event.mouse.position.y <= boardBounds.max.y - pieceRadius
+                    )
+                    .subscribe(event => {
+                        let position = event.mouse.position,
+                            sensor = Matter.Bodies.circle(position.x, position.y, pieceRadius, {
+                                isSensor: true
+                            }),
+                            hasCollision = false;
+                        subscriptionA.unsubscribe();
+                        let subscriptionB = Rx.Observable.bindCallback(Matter.Events.on)(that.game.engine, "collisionStart")
+                                .filter(event => {
+                                    let pairs = event.pairs;
 
-                            for (let i = 0, j = pairs.length; i != j; ++i) {
-                                let pair = pairs[i];
+                                    for (let i = 0, j = pairs.length; i != j; ++i) {
+                                        let pair = pairs[i];
 
-                                if (pair.bodyA === sensor
-                                    || pair.bodyB === sensor
-                                    && pair.bodyA !== that.game.board
-                                    && pair.BodyB !== that.game.board) {
-                                    return true;
-                                }
-                            }
-                            return false;
-                        })
-                        .subscribe(() => {
-                            subscriptionB.unsubscribe();
-                            hasCollision = true;
-                        });
-                    Matter.World.add(that.game.engine.world, sensor);
-                    let count = 0;
-                    let runOnNextFrame = function () {
-                            console.log(count, hasCollision);
-                            if (Matter.Composite.get(that.game.engine.world, sensor.id, sensor.type)) {
-                                if (hasCollision === true) {
-                                    console.log("bad");
-                                    Matter.Composite.remove(that.game.engine.world, sensor);
-                                    listen();
-                                } else if (count >= 5) {
-                                    console.log("good");
+                                        if (pair.bodyA === sensor
+                                            || pair.bodyB === sensor
+                                            && pair.bodyA !== that.game.board
+                                            && pair.BodyB !== that.game.board) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                })
+                                .subscribe(() => {
                                     subscriptionB.unsubscribe();
-                                    Matter.Body.set(sensor, {
-                                        isSensor: false,
-                                        frictionAir: 0.03,
-                                        restitution: 0.65
-                                    });
-                                    player.pieceSet.add(new Piece({
-                                        owner: player,
-                                        body: sensor
-                                    }));
-                                    listen();
-                                } else {
-                                    count++;
-                                    requestAnimationFrame(runOnNextFrame);
+                                    hasCollision = true;
+                                });
+                        Matter.World.add(that.game.engine.world, sensor);
+                        let count = 0;
+                        let runOnNextFrame = function () {
+                                console.log(count, hasCollision);
+                                if (Matter.Composite.get(that.game.engine.world, sensor.id, sensor.type)) {
+                                    if (hasCollision === true) {
+                                        console.log("bad");
+                                        Matter.Composite.remove(that.game.engine.world, sensor);
+                                        listen();
+                                    } else if (count >= 5) {
+                                        console.log("good");
+                                        subscriptionB.unsubscribe();
+                                        Matter.Body.set(sensor, {
+                                            isSensor: false,
+                                            frictionAir: 0.03,
+                                            restitution: 0.65
+                                        });
+                                        player.pieceSet.add(new Piece({
+                                            owner: player,
+                                            body: sensor
+                                        }));
+                                        pieceCount++;
+                                        if (pieceCount < pieceTotal) {
+                                            listen();
+                                        } else {
+                                            completeCallback();
+                                        }
+                                    } else {
+                                        count++;
+                                        requestAnimationFrame(runOnNextFrame);
+                                    }
                                 }
-                            }
-                        };
-                    requestAnimationFrame(runOnNextFrame);
-                });
+                            };
+                        requestAnimationFrame(runOnNextFrame);
+                    });
         };
 
     listen();
     },
     startRegularSetup = function () {
-        let playerQueue = this.game.playerQueue;
-        startPlacingPiece.call(this, playerQueue.active);
+        let that = this,
+            playerQueue = that.game.playerQueue,
+            minPieceTotalPlayer = (function () {
+                let minPieceTotal = playerQueue.get(0).pieceSet.length,
+                    index = 0;
+                for (let i = 1, len = playerQueue.length; i < len; i++) {
+                    if (playerQueue.get(i).pieceSet.length < minPieceTotal) {
+                        minPieceTotal = playerQueue.get(i).pieceSet.length;
+                        index = i;
+                    }
+                }
+                return playerQueue.get(index);
+            }()),
+            getRestPieceCount = function (player) {
+                return player.pieceTotal - player.pieceSet.length;
+            },
+            decidePlacingPieceCount = function (player) {
+                let playerRestPieceCount = getRestPieceCount(player),
+                    minRestPieceCount = getRestPieceCount(minPieceTotalPlayer),
+                    count = Math.round(playerRestPieceCount / minRestPieceCount);
+                if (count <= playerRestPieceCount) {
+                    return count;
+                } else {
+                    return playerRestPieceCount;
+                }
+            },
+            nextPlayerStart = function () {
+                startPlacingPiece.call(that, playerQueue.next(), decidePlacingPieceCount(playerQueue.active), nextPlayerStart);
+            };
+        startPlacingPiece.call(that, playerQueue.active, decidePlacingPieceCount(playerQueue.active), nextPlayerStart);
     };
 
 export default class {

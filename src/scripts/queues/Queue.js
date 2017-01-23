@@ -33,12 +33,15 @@ export default class {
     }
 
     next() {
-        if (this._active >= this._items.length) {
-            this._active = 0;
-        } else if (this._loop === true) {
+        if (this._active < this._items.length - 1) {
             this._active = this._active + 1;
+        } else if (this._loop === true) {
+            this._active = 0;
         }
         return this._items[this._active];
+    }
+    get(index) {
+        return this._items[index];
     }
     isEnd() {
         if (this._loop === true) {
