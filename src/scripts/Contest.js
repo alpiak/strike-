@@ -3,10 +3,20 @@
  */
 import StageQueue from "./queues/StageQueue";
 
+function startRegularContest() {
+    console.log("contest start");
+}
+
 export default class {
     constructor (options) {
-        if (options.type === "basic") {
-            this.stageQueue = new StageQueue(1);
+        switch (options.type) {
+            case "basic":
+                this.type = "basic";
+                this.stageQueue = new StageQueue(1);
+                this.start = function () {
+                    startRegularContest.call(this);
+                };
+                break;
         }
     }
 }

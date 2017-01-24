@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="de6889ee-4970-45ec-934a-18e9bd2b0adf" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/scripts/utilities/decideMoveCount.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/PieceSet.js" afterPath="$PROJECT_DIR$/src/scripts/PieceSet.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/Contest.js" afterPath="$PROJECT_DIR$/src/scripts/Contest.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/Game.js" afterPath="$PROJECT_DIR$/src/scripts/Game.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/Setup.js" afterPath="$PROJECT_DIR$/src/scripts/Setup.js" />
     </list>
     <ignored path="strike!.iws" />
@@ -28,11 +30,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Setup.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Contest.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/scripts/Contest.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Game.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scripts/Game.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="700">
+              <caret line="47" column="51" selection-start-line="47" selection-start-column="51" selection-end-line="47" selection-end-column="51" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#43#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="20" column="31" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#43#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Setup.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/Setup.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="478">
-              <caret line="130" column="24" selection-start-line="130" selection-start-column="24" selection-end-line="130" selection-end-column="24" />
+            <state relative-caret-position="499">
+              <caret line="121" column="43" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#43#68#0" expanded="true" />
@@ -41,11 +81,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PieceSet.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/scripts/PieceSet.js">
+      <file leaf-file-name="Player.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scripts/players/Player.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="5" column="35" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+            <state relative-caret-position="160">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="decideMoveCount.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scripts/utilities/decideMoveCount.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="478">
+              <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -99,16 +149,18 @@
         <option value="$PROJECT_DIR$/src/scripts/physics/mouseConstraint.js" />
         <option value="$PROJECT_DIR$/src/scripts/game/Setup.js" />
         <option value="$PROJECT_DIR$/src/scripts/game/Game.js" />
-        <option value="$PROJECT_DIR$/src/scripts/Game.js" />
         <option value="$PROJECT_DIR$/src/scripts/Piece.js" />
         <option value="$PROJECT_DIR$/src/config.json" />
         <option value="$PROJECT_DIR$/src/scripts/players/Player.js" />
         <option value="$PROJECT_DIR$/src/scripts/players/Robot.js" />
         <option value="$PROJECT_DIR$/src/scripts/queues/Queue.js" />
         <option value="$PROJECT_DIR$/src/scripts/players/Human.js" />
-        <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/src/scripts/PieceSet.js" />
+        <option value="$PROJECT_DIR$/src/scripts/Game.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/scripts/utilities/decideMoveCount.js" />
         <option value="$PROJECT_DIR$/src/scripts/Setup.js" />
+        <option value="$PROJECT_DIR$/src/scripts/Contest.js" />
       </list>
     </option>
   </component>
@@ -124,8 +176,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="657" />
-    <option name="width" value="1263" />
+    <option name="x" value="422" />
+    <option name="width" value="1498" />
     <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -201,6 +253,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utilities" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -348,12 +422,12 @@
       <workItem from="1484276424865" duration="18799000" />
       <workItem from="1484536547735" duration="234000" />
       <workItem from="1484537172000" duration="60162000" />
-      <workItem from="1484880679806" duration="52951000" />
+      <workItem from="1484880679806" duration="61446000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133016000" />
+    <option name="totallyTimeSpent" value="141511000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -365,10 +439,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="657" y="0" width="1263" height="1040" extended-state="0" />
+    <frame x="422" y="0" width="1498" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21795918" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16369863" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855567" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -424,14 +498,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -635,31 +701,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/queues/StageQueue.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
           <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/Contest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -687,17 +733,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/Game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="27" column="58" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="58" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#43#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/scripts/players/Human.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -718,14 +753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/queues/Queue.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.babelrc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
@@ -734,14 +761,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
+    <entry file="file://$PROJECT_DIR$/src/scripts/queues/Queue.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#43#74#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="880">
+          <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -755,11 +779,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/players/Player.js">
+    <entry file="file://$PROJECT_DIR$/src/scripts/queues/StageQueue.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="23" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -771,13 +797,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/Setup.js">
+    <entry file="file://$PROJECT_DIR$/src/scripts/players/Player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="47" column="51" selection-start-line="47" selection-start-column="51" selection-end-line="47" selection-end-column="51" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#43#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="20" column="31" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#43#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/utilities/decideMoveCount.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="478">
-          <caret line="130" column="24" selection-start-line="130" selection-start-column="24" selection-end-line="130" selection-end-column="24" />
+          <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Setup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="121" column="43" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#43#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Contest.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -45,10 +45,7 @@ export default class {
         // run the renderer
         Render.run(this.render);
 
-        this.startSetup();
-    }
-    startSetup() {
-        this.setup.start(this);
+        this.setup.start(() => this.contest.start());
     }
 
 }
