@@ -1,7 +1,7 @@
 /**
  * Created by qhyang on 2017/1/24.
  */
-let decideMoveCount = (function() {
+let decideSetupMoveCount = (function() {
         let getRestPieceCount = function (player) {
                 return player.pieceTotal - player.pieceSet.length;
             };
@@ -42,4 +42,4 @@ let decideMoveCount = (function() {
         }
     }());
 
-export default decideMoveCount;
+export default decideSetupMoveCount;

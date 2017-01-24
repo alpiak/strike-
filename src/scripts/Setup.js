@@ -4,7 +4,7 @@
 import Rx from "rxjs/Rx";
 import Matter from "matter-js";
 import Piece from "./Piece";
-import decideMoveCount from "./utilities/decideMoveCount";
+import decideSetupMoveCount from "./utilities/decideSetupMoveCount";
 import placePieceWithCollisionCheck from "./utilities/placePieceWithCollisionCheck";
 
 /**
@@ -76,7 +76,7 @@ let startPlacingPiece = function(player, pieceTotal, completeCallback) {
                 };
                 return function () {
                     if (!checkComplete()) {
-                        startPlacingPiece.call(that, playerQueue.active, decideMoveCount(playerQueue.active, playerQueue), () => {
+                        startPlacingPiece.call(that, playerQueue.active, decideSetupMoveCount(playerQueue.active, playerQueue), () => {
                             playerQueue.next();
                             startNewTurn();
                         });

@@ -4,6 +4,15 @@
 import Rx from "rxjs/Rx";
 import Matter from "matter-js";
 
+/**
+ * Check a body if it collide with any other bodies. If not, add it into the world.
+ *
+ * @param body {Matter.Body} The body you want to add
+ * @param engine {Matter.Engine} The physics engine
+ * @param excluded {Matter.Body[]} The bodies exluded from the collision check
+ * @param noCollisionCallback {function} The callback function called when no collision detected
+ * @param collisionCallback {function} The callback function called when collision detected
+ */
 export default function (body, engine, excluded, noCollisionCallback, collisionCallback) {
     let hasCollision = false,
         subscription = Rx.Observable.create(subscriber => {

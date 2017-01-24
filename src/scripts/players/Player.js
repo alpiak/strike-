@@ -9,6 +9,7 @@ export default class {
         this.pieceSet = options.pieceSet || new PieceSet();
         this.pieceRadius = options.pieceRadius || 20;
         this.pieceTotal = options.pieceTotal || 10;
+        this.strikerRadius = options.strikerRadius || 20;
     }
 }
 
