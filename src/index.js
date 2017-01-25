@@ -15,11 +15,10 @@ let game = new Game({
             new Human({
                 name: "playerA",
                 pieceRadius: 30,
-                pieceTotal: 1
+                pieceTotal: 5
             }),
             new Human({
-                name: "playerB",
-                pieceTotal: 1
+                name: "playerB"
             })
         ],
         loop: true

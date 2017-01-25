@@ -15,44 +15,108 @@ function startRegularContest() {
             let startMove = function (player, moveTotal, completeCallback) {
                     let moveCount = 0,
                         listen = function () {
-                            let striker;
-                            Rx.Observable.create(subscriber => {
-                                let mouseUp = function () {
-                                    Matter.Composite.remove(that.game.engine.world, striker);
-                                };
-                                Matter.Events.on(that.game.mouseConstraint, "mouseup", mouseUp);
-                                Matter.Events.on(that.game.mouseConstraint, "mousedown", event => {
-                                    subscriber.next(event);
-                                });
-                            })
-                                .map(event => {
-                                    let position = event.mouse.position;
-                                    striker = Matter.Bodies.circle(position.x, position.y, player.strikerRadius, {
-                                        frictionAir: 0.03,
-                                        restitution: 0.65,
-                                        collisionFilter: {
-                                            category: 0x0002
-                                        }
-                                    });
-                                    return Rx.Observable.create(subscriber => {
-                                        placePieceWithCollisionCheck(striker, that.game.engine, [that.game.board], () => {
-                                            subscriber.next({
-                                                status: "success",
-                                                target: striker
-                                            });
-                                        }, () => {
-                                            subscriber.next({
-                                                status: "fail"
+                            let striker, mouseUp, mouseDown,
+                                subscriptionA = Rx.Observable.create(subscriber => {
+                                    mouseUp = function () {
+                                        Matter.Composite.remove(that.game.engine.world, striker);
+                                    };
+                                    mouseDown = function (event) {
+                                        subscriber.next(event);
+                                    };
+                                    Matter.Events.on(that.game.mouseConstraint, "mouseup", mouseUp);
+                                    Matter.Events.on(that.game.mouseConstraint, "mousedown", mouseDown);
+                                })
+                                    .map(event => {
+                                        let position = event.mouse.position;
+                                        striker = Matter.Bodies.circle(position.x, position.y, player.strikerRadius, {
+                                            frictionAir: 0.03,
+                                            restitution: 0.65,
+                                            collisionFilter: {
+                                                category: 0x0002
+                                            }
+                                        });
+                                        return Rx.Observable.create(subscriber => {
+                                            placePieceWithCollisionCheck(striker, that.game.engine, [that.game.board], () => {
+                                                subscriber.next({
+                                                    status: "success",
+                                                    target: striker
+                                                });
+                                            }, () => {
+                                                subscriber.next({
+                                                    status: "fail"
+                                                });
                                             });
                                         });
+                                    })
+                                    .mergeAll()
+                                    .subscribe(event => {
+                                        if (event.status === "success") {
+                                            that.game.mouseConstraint.bodyB = event.target;
+                                        }
                                     });
+                            let collisionEnd,
+                                subscriptionB = Rx.Observable.create(subscriber => {
+                                    collisionEnd = function (event) {
+                                        subscriber.next(event);
+                                    };
+                                    Matter.Events.on(that.game.engine, "collisionEnd", collisionEnd);
                                 })
-                                .mergeAll()
-                                .subscribe(event => {
-                                    if (event.status === "success") {
-                                        that.game.mouseConstraint.bodyB = event.target;
-                                    }
-                                });
+                                    .filter((event) => {
+                                        let pairs = event.pairs;
+                                        for (let i = 0, j = pairs.length; i != j; ++i) {
+                                            let pair = pairs[i];
+                                            if (pair.bodyA === striker
+                                                || pair.bodyB === striker
+                                                && pair.bodyA !== that.game.board
+                                                && pair.bodyA !== that.game.board) {
+                                                return true;
+                                            }
+                                        }
+                                        return false;
+                                    })
+                                    .map(event => {
+                                        return Rx.Observable.create(subscriber => {
+                                            Matter.Composite.remove(that.game.engine.world, striker);
+                                            Matter.Events.off(that.game.mouseConstraint, "mouseup", mouseUp);
+                                            Matter.Events.off(that.game.mouseConstraint, "mousedown", mouseDown);
+                                            subscriptionA.unsubscribe();
+                                            let count = 0,
+                                                previousAllBodies = [],
+                                                runByFrame = function () {
+                                                    let precision = 0.01,
+                                                        allBodies = Matter.Composite.allBodies(that.game.engine.world),
+                                                        isStop = true;
+                                                    for (let i = 0, j = allBodies.length; i != j; ++i) {
+                                                        let body = allBodies[i],
+                                                            previousBody = previousAllBodies[i];
+                                                        if (typeof previousBody === "undefined") {
+                                                            previousAllBodies[i] = previousBody = {
+                                                              position: {}
+
+                                                            };
+                                                        } else if (Math.abs(body.position.x - previousBody.position.x) > precision
+                                                            || Math.abs(body.position.x - previousBody.position.x) > precision) {
+                                                            isStop = false;
+                                                        }
+                                                        previousBody.position.x = body.position.x;
+                                                        previousBody.position.y = body.position.y;
+                                                    }
+                                                    if (isStop) {
+                                                        count++;
+                                                    } else {
+                                                        count = 0;
+                                                    }
+                                                    if (count > 10) {
+                                                        subscriber.next();
+                                                    } else {
+                                                        requestAnimationFrame(runByFrame);
+                                                    }
+                                                };
+                                                runByFrame();
+                                        });
+                                    })
+                                    .mergeAll()
+                                    .subscribe(() => console.log("stop"));
                         };
                         listen();
                 };

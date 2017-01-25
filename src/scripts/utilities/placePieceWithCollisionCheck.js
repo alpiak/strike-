@@ -15,33 +15,35 @@ import Matter from "matter-js";
  */
 export default function (body, engine, excluded, noCollisionCallback, collisionCallback) {
     let hasCollision = false,
+        collisionStart,
         subscription = Rx.Observable.create(subscriber => {
-            Matter.Events.on(engine, "collisionStart", event => {
+            collisionStart = function (event) {
                 subscriber.next(event);
-            });
+            };
+            Matter.Events.on(engine, "collisionStart", collisionStart);
         })
             .filter(event => {
                 let pairs = event.pairs;
 
                 for (let i = 0, j = pairs.length; i != j; ++i) {
                     let pair = pairs[i],
-                    hasCollision = (function () {
-                        if (pair.bodyA === body) {
-                            for (let i = 0, j = excluded.length; i != j; ++i) {
-                                if (pair.bodyB === excluded[i]) {
-                                    return false;
+                        hasCollision = (function () {
+                            if (pair.bodyA === body) {
+                                for (let i = 0, j = excluded.length; i != j; ++i) {
+                                    if (pair.bodyB === excluded[i]) {
+                                        return false;
+                                    }
                                 }
-                            }
-                            return true;
-                        } else if (pair.bodyB === body) {
-                            for (let i = 0, j = excluded.length; i != j; ++i) {
-                                if (pair.bodyA === excluded[i]) {
-                                    return false;
+                                return true;
+                            } else if (pair.bodyB === body) {
+                                for (let i = 0, j = excluded.length; i != j; ++i) {
+                                    if (pair.bodyA === excluded[i]) {
+                                        return false;
+                                    }
                                 }
+                                return true;
                             }
-                            return true;
-                        }
-                    }());
+                        }());
                     if (hasCollision) {
                         return true;
                     }
@@ -57,23 +59,24 @@ export default function (body, engine, excluded, noCollisionCallback, collisionC
     });
     Matter.World.add(engine.world, body);
     let count = 0,
-        runOnNextFrame = function () {
+        runByFrame = function () {
             if (Matter.Composite.get(engine.world, body.id, body.type)) {
                 if (hasCollision === true) {
                     Matter.Composite.remove(engine.world, body);
-                    subscription.unsubscribe();
+                    Matter.Events.off(engine, "collisionStart", collisionStart);
                     collisionCallback();
                 } else if (count >= 5) {
                     Matter.Body.set(body, {
                         isSensor: false
                     });
                     subscription.unsubscribe();
+                    Matter.Events.off(engine, "collisionStart", collisionStart);
                     noCollisionCallback();
                 } else {
                     count++;
-                    requestAnimationFrame(runOnNextFrame);
+                    requestAnimationFrame(runByFrame);
                 }
             }
         };
-    requestAnimationFrame(runOnNextFrame);
+    runByFrame();
 }
