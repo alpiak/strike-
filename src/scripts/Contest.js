@@ -15,20 +15,25 @@ function startRegularContest() {
             let startMove = function (player, moveTotal, completeCallback) {
                     let moveCount = 0,
                         listen = function () {
+                            let striker;
                             Rx.Observable.create(subscriber => {
+                                let mouseUp = function () {
+                                    Matter.Composite.remove(that.game.engine.world, striker);
+                                };
+                                Matter.Events.on(that.game.mouseConstraint, "mouseup", mouseUp);
                                 Matter.Events.on(that.game.mouseConstraint, "mousedown", event => {
                                     subscriber.next(event);
                                 });
                             })
                                 .map(event => {
-                                    let position = event.mouse.position,
-                                        striker = Matter.Bodies.circle(position.x, position.y, player.strikerRadius, {
-                                            frictionAir: 0.03,
-                                            restitution: 0.65,
-                                            collisionFilter: {
-                                                category: 0x0002
-                                            }
-                                        });
+                                    let position = event.mouse.position;
+                                    striker = Matter.Bodies.circle(position.x, position.y, player.strikerRadius, {
+                                        frictionAir: 0.03,
+                                        restitution: 0.65,
+                                        collisionFilter: {
+                                            category: 0x0002
+                                        }
+                                    });
                                     return Rx.Observable.create(subscriber => {
                                         placePieceWithCollisionCheck(striker, that.game.engine, [that.game.board], () => {
                                             subscriber.next({
@@ -43,14 +48,9 @@ function startRegularContest() {
                                     });
                                 })
                                 .mergeAll()
-                                .subscribe((event) => {
+                                .subscribe(event => {
                                     if (event.status === "success") {
                                         that.game.mouseConstraint.bodyB = event.target;
-                                        let mouseUp = function () {
-                                            Matter.Composite.remove(that.game.engine.world, event.target);
-                                            Matter.Events.off(that.game.mouseConstraint, "mouseup", mouseUp);
-                                        };
-                                        Matter.Events.on(that.game.mouseConstraint, "mouseup", mouseUp);
                                     }
                                 });
                         };
