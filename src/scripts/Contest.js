@@ -6,6 +6,7 @@ import Matter from "matter-js";
 import StageQueue from "./queues/StageQueue";
 import placePieceWithCollisionCheck from "./utilities/placePieceWithCollisionCheck";
 import detectAllStop from "./utilities/detectAllStop";
+import removeEliminatePieces from "./utilities/removeEliminatePieces";
 
 function startRegularContest() {
     let that = this;
@@ -87,7 +88,10 @@ function startRegularContest() {
                                         });
                                     })
                                     .mergeAll()
-                                    .subscribe(() => console.log("stop"));
+                                    .take(1)
+                                    .subscribe(() => {
+                                        removeEliminatePieces(that.game);
+                                    });
                         };
                         listen();
                 };

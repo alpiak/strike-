@@ -21,12 +21,14 @@ export default class {
     remove(piece) {
         for (let i = 0; i < this._pieces.length; i++) {
             if (piece === this._pieces[i]) {
-                this._pieces.splice(i, 0);
-                return piece;
+                return this._pieces.splice(i, 1);
             }
         }
     }
+    get(index) {
+        return this._pieces[index];
+    }
     getAll() {
-        return _pieces;
+        return this._pieces;
     }
 }
